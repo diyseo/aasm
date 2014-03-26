@@ -197,7 +197,7 @@ module AASM
           write_attribute(self.class.aasm_column, state.to_s)
 
           success = if AASM::StateMachine[self.class].config.skip_validation_on_save && !self.valid?
-            self.class.update_all({ self.class.aasm_column => state.to_s }, self.class.primary_key => self.id) == 1
+            self.send(:update_without_callbacks)
           else
             self.save
           end
